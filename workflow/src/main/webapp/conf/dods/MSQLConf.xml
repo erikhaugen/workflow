@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Together Workflow Server
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<dodsConf>
+<!-- =======================================================================================
+        
+ DODS MSQL database vendor configuration file.
+
+ ======================================================================================== -->
+
+<!--
+ The Database type and JDBC type used to store ObjectId's
+-->
+    <OidDbType>DECIMAL (19,0)</OidDbType>
+    <OidJdbcType>BigDecimal</OidJdbcType>
+        
+<!--
+ The OidDbColumnName, VersionDbColumnName are used for generating the SQL CREATE TABLE
+ statements in the create_tables.sql and <classname>SQL.sql files
+-->
+    <OidDbColumnName>oid</OidDbColumnName>
+    <VersionDbColumnName>version</VersionDbColumnName>
+        
+<!--
+ Some vendors support the ON DELETE CASCADE row attribute.
+ So if DODS generates .sql files containing the following table definitions:
+    create table dept     ( deptid INT );
+    create table employee ( deptid INT REFERENCES(dept) ON DELETE CASCADE );
+ then deleting a dept row will cause the deletion of employee rows
+ which refer to that dept.
+ This saves having to write the most common of database triggers.
+-->
+    <DeleteCascade>false</DeleteCascade>
+
+<!--
+ Some vendors support to INCLUDE additional columns in index, 
+ so on that way you can extend your indexes with additional columns 
+
+ In SQL Server 2005, you can extend the functionality of nonclustered indexes 
+ by adding nonkey columns to the leaf level of the nonclustered index. 
+ By including nonkey columns, you can create nonclustered indexes that cover more queries. 
+
+Default value for IncludeIndexColumns parameter is false.
+
+-->
+    <IncludeIndexColumns>true</IncludeIndexColumns>
+
+
+<!--
+ Some vendors support creating statistics for tables, views. 
+
+ In SQL Server 2005, server can creates a histogram and 
+ associated density groups (collections) over the supplied 
+ column or set of columns of a table or indexed view.
+
+ Default value for EnableCreateStatistics parameter is false.
+-->
+    <EnableCreateStatistics>true</EnableCreateStatistics>
+
+<!-- 
+Represents the beginning part of SQL statement for creating statistics
+-->        
+    <CreateStatistics>CREATE STATISTICS</CreateStatistics>
+    
+<!--
+Some vendors support named statistics.
+If set to true, DODS generates  SQL statement for creating statistics
+with name of the statistics. 
+In SQL Server 2005, you have to set this value to true.  
+-->    
+    
+    <NamedStatistics>true</NamedStatistics>
+    
+<!--
+If set to true, DODS generates SQL statement with full column name
+     ( with table name prefix eg. TableName.ColumnName) 
+-->            
+    <FullColumnNames>false</FullColumnNames>
+    
+<!--
+Some vendors support attribs(options) for statistics. 
+If set to true, DODS generates SQL statement with attribs. 
+-->    
+    
+    <SupportAttribs>true</SupportAttribs>
+
+<!--  
+Represents the ending part of SQL statement for creating statistics
+(only for Oracle)
+-->        
+    
+    <EndString></EndString>
+<!--
+ Some vendors support named referential constraints.
+ So if DODS generates .sql files containing the following table definitions:
+    create table dept     ( deptid INT );
+    create table employee ( 
+                  deptid INT CONSTRAINT emp_refs_dept REFERENCES(dept) );
+ then if an employee row is committed with an invalid deptid 
+ the error will report a problem with constraint 'emp_refs_dept'
+ rather than some unhelpful constraint name chosen by the database.
+-->
+    <NamedConstraint>false</NamedConstraint>
+
+<!--    
+ConstraintNameLength is  maximux lengt of Constraint Name supported by database engine.
+-->    
+    <ConstraintNameLength></ConstraintNameLength>
+
+
+<!--
+ The StringQuoteCharacter was added by Chris Ryan (cryan@plugged.net.au).
+ There does not appear to be a standard string quote character amongst
+ the DB vendors.  Most appear to support ["] but Sybase really objects
+ to this.  It requires ['].
+-->
+    <StringQuoteCharacter>'</StringQuoteCharacter>
+    <CommentStart>/*</CommentStart>
+    <CommentEnd>*/</CommentEnd>
+
+
+
+<!--
+ Like and Wildcard support.
+ 
+ Note: 
+ To disable adding wildcard escape clause in generated SQL query statments set 
+ <WildcardEscapeClause>none</WildcardEscapeClause>
+-->
+
+
+    <LikeKeyword>LIKE</LikeKeyword>
+    <Wildcard>%</Wildcard>
+	<SingleWildcard>_</SingleWildcard>
+	<SingleWildcardEscape>&#167;</SingleWildcardEscape>
+	<WildcardEscape>&#167;</WildcardEscape>
+	<WildcardEscapeClause>ESCAPE '&#167;'</WildcardEscapeClause>
+
+
+<!-- 
+	Driver specific propertys
+	For msjdbc driver:
+		- UseCursorName (true/false) enable/disable cursor naming
+		- OrderedResultSet (oldStyle/withPrefix/noPrefix) disable/prefixColumnWithTable/onlyColumnName reading column ordering
+		- DisableFetchSizeWithMaxRows (true/false)
+		- ResultSetType -  a result set type; one of TYPE_FORWARD_ONLY, TYPE_SCROLL_INSENSITIVE, or TYPE_SCROLL_SENSITIVE
+		- ResultSetConcurrency - a concurrency type; one of CONCUR_READ_ONLY or CONCUR_UPDATABLE 
+		- UseTopSyntax - If set to true, DODS generates "TOP XXX" for setMaxRows in SQL statement. Default value is false. 
+-->
+	<Drivers>
+		<com.microsoft.jdbc.sqlserver.SQLServerDriver>
+			<DriverDependenciesClass>org.enhydra.dods.dependencies.MsjdbcDriverDependencies</DriverDependenciesClass>
+			<UseCursorName>false</UseCursorName>
+			<OrderedResultSet>withPrefix</OrderedResultSet>
+			<ResultSetType>TYPE_FORWARD_ONLY</ResultSetType>
+			<ResultSetConcurrency>CONCUR_READ_ONLY</ResultSetConcurrency>
+		</com.microsoft.jdbc.sqlserver.SQLServerDriver>
+		<com.microsoft.sqlserver.jdbc.SQLServerDriver>
+			<DriverDependenciesClass>org.enhydra.dods.dependencies.MsjdbcDriverDependencies</DriverDependenciesClass>
+			<!--UseCursorName>false</UseCursorName-->
+			<!--OrderedResultSet>withPrefix</OrderedResultSet-->
+			<!--ResultSetType>TYPE_FORWARD_ONLY</ResultSetType-->
+			<!--ResultSetConcurrency>CONCUR_READ_ONLY</ResultSetConcurrency-->
+			<UseTopSyntax>true</UseTopSyntax>
+		</com.microsoft.sqlserver.jdbc.SQLServerDriver>
+		<com.newatlanta.jturbo.driver.Driver>
+			<DisableFetchSizeWithMaxRows>true</DisableFetchSizeWithMaxRows>
+		</com.newatlanta.jturbo.driver.Driver>
+		<net.sourceforge.jtds.jdbc.Driver>
+			<DriverDependenciesClass>org.enhydra.dods.dependencies.StandardDriverDependencies</DriverDependenciesClass>
+		</net.sourceforge.jtds.jdbc.Driver>
+		<org.continuent.sequoia.driver.Driver>
+			<UseCursorName>true</UseCursorName>
+		</org.continuent.sequoia.driver.Driver>
+	</Drivers>
+
+<!--
+ Here we map JDBC types to vendor-specific data types.
+
+ For almost all vendors, the JDBC types BIT, TINYINT, SMALLINT and BIGINT
+ are mapped to the data type INTEGER.
+ For most vendors, these types are actually INTEGER.
+ The following entries can be changed to impose size restrictions.
+ For example, to specify an actual size for a TINYINT, make the change:
+       Database.JDBCtype.TINYINT.Oracle=       "DECIMAL(4,0)"
+ Note that the "set" methods in the DO classes generated by DODS
+ do not test for size restrictions on integer values.
+ So, altering the mappings here requires additional range checking
+ in the business logic of the classes using the DOs.
+-->
+
+    <JDBCtype>
+        <BIT>tinyint</BIT>
+        <TINYINT>tinyint</TINYINT>
+        <SMALLINT>smallint</SMALLINT>
+        <INTEGER>INTEGER</INTEGER>
+        <BIGINT>INTEGER</BIGINT>
+        <REAL>REAL</REAL>
+        <FLOAT>FLOAT</FLOAT>
+        <DOUBLE>FLOAT</DOUBLE>
+        <NUMERIC>NUMERIC</NUMERIC>
+        <DECIMAL>DECIMAL</DECIMAL>
+        <CHAR>CHAR</CHAR>
+        <VARCHAR>VARCHAR</VARCHAR>
+        <LONGVARCHAR>TEXT</LONGVARCHAR>
+        <BINARY>BINARY</BINARY>
+        <VARBINARY>VARBINARY</VARBINARY>
+        <LONGVARBINARY>IMAGE</LONGVARBINARY>
+        <DATE>smalldatetime</DATE>
+        <TIME>DATETIME</TIME>
+        <TIMESTAMP>DATETIME</TIMESTAMP>
+        <NODE>XML</NODE>
+    </JDBCtype>
+</dodsConf>

@@ -1,0 +1,16 @@
+{
+    "name": "input-filtered",
+    "description": "input-filtered",
+    "version": "0.0.1",
+    "keywords": [
+        "element",
+        "web-components",
+        "x-tag"
+    ],
+    "main": [
+        "src/input-filtered.js"
+    ],
+    "dependencies": {
+        "x-tag-core": "*"
+    }
+}

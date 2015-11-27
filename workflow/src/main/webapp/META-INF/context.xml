@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/workflow">
+    <Resource
+        auth="Container" factory="org.enhydra.jndi.UserTransactionFactory"
+        name="UserTransaction" type="javax.transaction.UserTransaction"/>
+    <Resource
+        driverClassName="com.mysql.jdbc.Driver" type="javax.sql.DataSource"
+        factory="org.enhydra.jndi.DataSourceFactory"
+        max="50" min="10" name="jdbc/sharkdb"
+        username="workflow" password="shark" validationQuery="SELECT 1"
+        url="jdbc:mysql://localhost/workflow" />
+    <!--
+ <Resource
+    name="sharkdb"
+    type="javax.sql.DataSource"
+    factory="org.enhydra.jndi.DataSourceFactory"
+    max="96"
+    min="16"
+    driverClassName="org.hsqldb.jdbcDriver"
+    password=""
+    username="sa"
+    url="jdbc:hsqldb:/tmp/hsql/hsql"
+    _url="jdbc:hsqldb:${catalina.base}/webapps/workflow/db/hsql/hsql"/>
+    -->
+    <!--Resource name="sharkdb" type="javax.sql.DataSource"
+       factory="org.enhydra.jndi.DataSourceFactory"
+       max="96"
+       min="16"
+       username="shark"
+       password=""
+       driverClassName="org.postgresql.Driver"
+       url="jdbc:postgresql://127.0.0.1/shark"
+    /-->
+</Context>

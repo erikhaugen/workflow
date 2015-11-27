@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings version="2.1"
+               xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+               xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+               xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+               jaxb:extensionBindingPrefixes="xjc inheritance"
+               schemaLocation="./xpil.xsd" node="/xsd:schema"
+>
+    <jaxb:globalBindings>
+        <!--
+            Experimental simpler&better binding mode
+            https://jaxb.java.net/2.1.2/docs/vendorCustomizations.html#simple
+        -->
+        <xjc:simple/>
+        <xjc:serializable/>
+        <!-- настройки для того чтобы поля типа xsd:date и xsd:dateTime генерировались с типом GregorianCalendar
+        <jaxb:javaType name="java.util.GregorianCalendar" xmlType="xsd:date"
+                       parseMethod="ru.ilb.common.rs.DateConverter.parseDateGregorian"
+                       printMethod="ru.ilb.common.rs.DateConverter.printDate"
+        />
+        <jaxb:javaType name="java.util.GregorianCalendar" xmlType="xsd:dateTime"
+                       parseMethod="ru.ilb.common.rs.DateConverter.parseDateTimeGregorian"
+                       printMethod="ru.ilb.common.rs.DateConverter.printDateTime"
+        />
+        -->
+        <!-- настройки для того чтобы поля типа xsd:date и xsd:dateTime генерировались с типом Date -->
+        <jaxb:javaType name="java.util.Date" xmlType="xsd:date"
+                       parseMethod="ru.ilb.common.rs.DateConverter.parseDate"
+                       printMethod="ru.ilb.common.rs.DateConverter.printDate"
+        />
+        <jaxb:javaType name="java.util.Date" xmlType="xsd:dateTime"
+                       parseMethod="ru.ilb.common.rs.DateConverter.parseDateTime"
+                       printMethod="ru.ilb.common.rs.DateConverter.printDateTime"
+        />
+    </jaxb:globalBindings>
+    <jaxb:bindings node="//xsd:element[@name='DataInstances']">
+        <jaxb:class implClass="at.together._2006.xpil1.impl.DataInstancesImpl" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xsd:complexType[@name='DataInstance']">
+        <inheritance:extends>at.together._2006.xpil1.wrapper.WrapperImpl</inheritance:extends>
+    </jaxb:bindings>
+    <jaxb:bindings node="//xsd:element[@name='StringArrayDataInstance']">
+        <jaxb:class implClass="at.together._2006.xpil1.impl.StringArrayDataInstanceImpl" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xsd:complexType[@name='ExecutionInstance']">
+        <jaxb:class implClass="at.together._2006.xpil1.impl.ExecutionInstanceImpl" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xsd:element[@name='ActivityInstances']">
+        <jaxb:class implClass="at.together._2006.xpil1.impl.ActivityInstancesImpl" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xsd:complexType[@name='WorkflowProcessInstance']">
+        <jaxb:class implClass="at.together._2006.xpil1.impl.WorkflowProcessInstanceImpl" />
+    </jaxb:bindings>
+
+</jaxb:bindings>
+

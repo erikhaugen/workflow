@@ -1,0 +1,96 @@
+Index: Shark/input/build/dodstargets.xml
+===================================================================
+--- Shark/input/build/dodstargets.xml	(revision 1600)
++++ Shark/input/build/dodstargets.xml	(working copy)
+@@ -291,5 +291,10 @@
+       <antcall target="updateJAR" inheritall="true">
+         <param name="jar2update" value="${outlib.dir}/${jar.name}.jar"/>
+       </antcall>
++      <jar destfile="${outlib.dir}/${jar.name}-sources.jar" basedir="${src.dir}"
++           excludes="**/data/**" update="true"/>
++      <antcall target="updateJAR" inheritall="true">
++        <param name="jar2update" value="${outlib.dir}/${jar.name}-sources.jar"/>
++      </antcall>
+       
+    </target>
+Index: Shark/input/build/simplecompile.xml
+===================================================================
+--- Shark/input/build/simplecompile.xml	(revision 1600)
++++ Shark/input/build/simplecompile.xml	(working copy)
+@@ -51,5 +51,9 @@
+       <antcall target="updateJAR" inheritall="true">
+         <param name="jar2update" value="${outlib.dir}/${jar.name}.jar"/>
+       </antcall>
++      <jar destfile="${outlib.dir}/${jar.name}-sources.jar" basedir="${src.dir}" />
++      <antcall target="updateJAR" inheritall="true">
++        <param name="jar2update" value="${outlib.dir}/${jar.name}-sources.jar"/>
++      </antcall>
+    </target>
+ 
+Index: Shark/modules/SharkAPI/build.xml
+===================================================================
+--- Shark/modules/SharkAPI/build.xml	(revision 1600)
++++ Shark/modules/SharkAPI/build.xml	(working copy)
+@@ -115,6 +115,28 @@
+       <antcall target="updateJAR" inheritall="true">
+         <param name="jar2update" value="${apilib.dir}/${sharkinternalapijar.name}.jar"/>
+       </antcall>
++      <jar destfile="${apilib.dir}/${sharkcommonapijar.name}-sources.jar"
++           basedir="${src.dir}"
++           includes="org/enhydra/shark/*.* org/enhydra/shark/api/*.class, org/enhydra/shark/api/common/**"/>
++      <antcall target="updateJAR" inheritall="true">
++        <param name="jar2update" value="${apilib.dir}/${sharkcommonapijar.name}-sources.jar"/>
++      </antcall>
++           
++      <jar destfile="${apilib.dir}/${sharkclientapijar.name}-sources.jar"
++           basedir="${src.dir}"
++           includes="org/enhydra/shark/api/client/**" />
++      <antcall target="updateJAR" inheritall="true">
++        <param name="jar2update" value="${apilib.dir}/${sharkclientapijar.name}-sources.jar"/>
++      </antcall>
++           
++      <jar destfile="${apilib.dir}/${sharkinternalapijar.name}-sources.jar"
++           basedir="${src.dir}"
++           includes="org/enhydra/shark/api/internal/**" />
++      <antcall target="updateJAR" inheritall="true">
++        <param name="jar2update" value="${apilib.dir}/${sharkinternalapijar.name}-sources.jar"/>
++      </antcall>
++      
++      
+    </target>
+    <target name="_clean"/>
+ 
+Index: Shark/modules/SharkKernel/Standard/build.xml
+===================================================================
+--- Shark/modules/SharkKernel/Standard/build.xml	(revision 1600)
++++ Shark/modules/SharkKernel/Standard/build.xml	(working copy)
+@@ -97,6 +97,12 @@
+       <antcall target="updateJAR" inheritall="true">
+         <param name="jar2update" value="${enginelib.dir}/${jar.name}.jar"/>
+       </antcall>
++      <jar destfile="${enginelib.dir}/${jar.name}-sources.jar">
++         <fileset dir="${src.dir}" includes="org/enhydra/shark/**"/>
++      </jar>
++      <antcall target="updateJAR" inheritall="true">
++        <param name="jar2update" value="${enginelib.dir}/${jar.name}-sources.jar"/>
++      </antcall>
+       
+    </target>
+    <target name="_clean"/>
+Index: Shark/modules/SharkToolAgent/Standard/build.xml
+===================================================================
+--- Shark/modules/SharkToolAgent/Standard/build.xml	(revision 1600)
++++ Shark/modules/SharkToolAgent/Standard/build.xml	(working copy)
+@@ -102,6 +102,12 @@
+       <antcall target="updateJAR" inheritall="true">
+         <param name="jar2update" value="${enginelib.dir}/${jar.name}.jar"/>
+       </antcall>
++      <jar destfile="${enginelib.dir}/${jar.name}-sources.jar"
++           basedir="${src.dir}">
++      </jar>
++      <antcall target="updateJAR" inheritall="true">
++        <param name="jar2update" value="${enginelib.dir}/${jar.name}-sources.jar"/>
++      </antcall>
+    </target>
+    <target name="_clean"/>
+ 

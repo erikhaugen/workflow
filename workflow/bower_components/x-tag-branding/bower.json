@@ -1,0 +1,13 @@
+{
+  "name": "x-tag-branding",
+  "description": "x-tag-branding",
+  "version": "0.0.1",
+  "keywords": [
+    "element",
+    "web-components",
+    "x-tag"
+  ],
+  "main": [
+    "src/branding.css"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+	"name": "Request mixin",
+	"tagName": "x-none",
+	"version": "0.2.1",
+	"author": "Daniel Buchner",
+	"description": "XHR helper",
+	"categories": [
+		"mixin"
+	],
+	"compatibility": {
+		"firefox": 5,
+		"chrome": 4,
+		"ie": 9,
+		"opera": 12,
+		"android": 2.1,
+		"ios": 4
+	},
+	"documentation": {
+		"description": "",
+		"attributes": {},
+		"events": {},
+		"methods": {},
+		"getters": {
+			"src": "Gets the current src attribute"
+		},
+		"setters": {
+			"src": "Sets the src attribute and does the request"
+		}
+	}
+}

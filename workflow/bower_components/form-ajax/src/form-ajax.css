@@ -1,0 +1,3 @@
+form.submitting, form.submitting * {
+    cursor: wait;
+}

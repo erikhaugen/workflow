@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Together Workflow Server
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+<xsd:schema  xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.together.at/2006/XPIL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpil="http://www.together.at/2006/XPIL1.0" xmlns:h="http://www.w3.org/1999/xhtml" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xsd:import namespace="http://www.wfmc.org/2002/XPDL1.0" schemaLocation="xpdl.xsd"/>
+   <xsd:element name="WorkflowFacilityInstance">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:Header"/>
+            <xsd:element ref="xpil:Users" minOccurs="0"/>
+            <xsd:element ref="xpil:PackageInstances" minOccurs="0"/>
+         </xsd:sequence>
+         <xsd:attribute name="Id" type="xsd:string" use="required"/>
+         <xsd:attribute name="Name" type="xsd:string"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="ExtendedWorkflowFacilityInstance">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:Header"/>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+               <xsd:element ref="xpil:User"/>
+               <xsd:element ref="xpil:Users"/>
+               <xsd:element ref="xpil:PackageInstance"/>
+               <xsd:element ref="xpil:PackageInstances"/>
+               <xsd:element ref="xpil:WorkflowProcessFactoryInstance"/>
+               <xsd:element ref="xpil:WorkflowProcessFactoryInstances"/>
+               <xsd:element ref="xpil:MainWorkflowProcessInstance"/>
+               <xsd:element ref="xpil:SubWorkflowProcessInstance"/>
+               <xsd:element ref="xpil:WorkflowProcessInstances"/>
+               <xsd:element ref="xpil:ManualActivityInstance"/>
+               <xsd:element ref="xpil:ToolActivityInstance"/>
+               <xsd:element ref="xpil:BlockActivityInstance"/>
+               <xsd:element ref="xpil:RouteActivityInstance"/>
+               <xsd:element ref="xpil:SubFlowActivityInstance"/>
+               <xsd:element ref="xpil:ActivityInstances"/>
+               <xsd:element ref="xpil:AssignmentInstance"/>
+               <xsd:element ref="xpil:AssignmentInstances"/>
+               <xsd:element ref="xpil:StringDataInstance"/>
+               <xsd:element ref="xpil:StringArrayDataInstance"/>
+               <xsd:element ref="xpil:BooleanDataInstance"/>
+               <xsd:element ref="xpil:BooleanArrayDataInstance"/>
+               <xsd:element ref="xpil:DateDataInstance"/>
+               <xsd:element ref="xpil:DateArrayDataInstance"/>
+               <xsd:element ref="xpil:DateTimeDataInstance"/>
+               <xsd:element ref="xpil:DateTimeArrayDataInstance"/>
+               <xsd:element ref="xpil:TimeDataInstance"/>
+               <xsd:element ref="xpil:TimeArrayDataInstance"/>
+               <xsd:element ref="xpil:LongDataInstance"/>
+               <xsd:element ref="xpil:LongArrayDataInstance"/>
+               <xsd:element ref="xpil:DoubleDataInstance"/>
+               <xsd:element ref="xpil:DoubleArrayDataInstance"/>
+               <xsd:element ref="xpil:ByteArrayDataInstance"/>
+               <xsd:element ref="xpil:AnyDataInstance"/>
+               <xsd:element ref="xpil:ComplexDataInstance"/>
+               <xsd:element ref="xpil:SchemaDataInstance"/>
+               <xsd:element ref="xpil:DataInstances"/>
+               <xsd:element ref="xpil:DeadlineInstance"/>
+               <xsd:element ref="xpil:DeadlineInstances"/>
+               <xsd:element ref="xpil:InstanceExtendedAttribute"/>
+               <xsd:element ref="xpil:InstanceExtendedAttributes"/>
+               <xsd:element ref="xpil:DataSignature"/>
+               <xsd:element ref="xpil:ContextSignature"/>
+               <xsd:element ref="xpil:LanguageMapping"/>
+               <xsd:element ref="xpil:LanguageMappings"/>
+               <xsd:element ref="xpil:NextInfoElement"/>
+               <xsd:element ref="xpil:NextInfo"/>
+               <xsd:element ref="xpil:PreviousActivityInstance"/>
+               <xsd:element ref="xpil:EventAudits"/>
+               <xsd:element ref="xpil:StateEventAudit"/>
+               <xsd:element ref="xpil:DataEventAudit"/>
+               <xsd:element ref="xpil:AssignmentEventAudit"/>
+               <xsd:element ref="xpil:CreateProcessEventAudit"/>
+            </xsd:choice>
+         </xsd:sequence>
+         <xsd:attribute name="Id" type="xsd:string" use="required"/>
+         <xsd:attribute name="Name" type="xsd:string"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="Header">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:SharkVersion"/>
+            <xsd:element ref="xpil:SharkRelease"/>
+            <xsd:element ref="xpil:SharkBuildId"/>
+            <xsd:element ref="xpil:XPILVersion"/>
+            <xsd:element ref="xpil:XPILVendor"/>
+            <xsd:element ref="xpil:CreationTime"/>
+            <xsd:element ref="xpil:XPILRequester"/>
+            <xsd:element ref="xpil:InstanceDescription" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="User">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+         <xsd:attribute name="Id" type="xsd:string" use="required"/>
+         <xsd:attribute name="Name" type="xsd:string"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="Users">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:User" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="PackageInstance">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:WorkflowProcessFactoryInstances" minOccurs="0"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+            <xsd:element ref="xpdl:Package" minOccurs="0"/>
+         </xsd:sequence>
+         <xsd:attribute name="Id" type="xsd:string" use="required"/>
+         <xsd:attribute name="Version" type="xsd:string" use="required"/>
+         <xsd:attribute name="InternalVersion" type="xsd:string" use="required"/>
+         <xsd:attribute name="Created" type="xsd:dateTime"/>         
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="PackageInstances">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:PackageInstance" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="WorkflowProcessFactoryInstance">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:ContextSignature" minOccurs="0"/>
+            <xsd:element ref="xpil:WorkflowProcessInstances" minOccurs="0"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+            <xsd:element ref="xpdl:WorkflowProcess" minOccurs="0"/>
+         </xsd:sequence>
+         <xsd:attribute name="Id" type="xsd:string" use="required"/>
+         <xsd:attribute name="DefinitionId" type="xsd:string"/>
+         <xsd:attribute name="State">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:NMTOKEN">
+                  <xsd:enumeration value="enabled"/>
+                  <xsd:enumeration value="disabled"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:attribute>
+         <xsd:attribute name="Version" type="xsd:string"/>
+         <xsd:attribute name="Created" type="xsd:dateTime"/>         
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="WorkflowProcessFactoryInstances">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:WorkflowProcessFactoryInstance" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:complexType name="ExecutionInstance" abstract="true" mixed="false">
+      <xsd:sequence>
+         <xsd:element ref="xpil:InstanceDescription" minOccurs="0"/>
+         <xsd:element ref="xpil:InstanceLimit" minOccurs="0"/>
+         <xsd:element ref="xpil:InstancePriority" minOccurs="0"/>
+         <xsd:element ref="xpil:DataInstances" minOccurs="0"/>
+         <xsd:element ref="xpil:EventAudits" minOccurs="0"/>
+         <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="Id" type="xsd:string" use="required"/>
+      <xsd:attribute name="DefinitionId" type="xsd:string"/>
+      <xsd:attribute name="Name" type="xsd:string"/>
+      <xsd:attribute name="State">
+         <xsd:simpleType>
+            <xsd:restriction base="xsd:NMTOKEN">
+               <xsd:enumeration value="open.not_running.not_started">
+                   <xsd:annotation>
+                       <xsd:appinfo>
+                           <h:label>Активный</h:label>
+                       </xsd:appinfo>
+                   </xsd:annotation>                   
+               </xsd:enumeration>                   
+               <xsd:enumeration value="open.not_running.suspended">
+                   <xsd:annotation>
+                       <xsd:appinfo>
+                           <h:label>Приостановлен</h:label>
+                       </xsd:appinfo>
+                   </xsd:annotation>                   
+               </xsd:enumeration>
+               <xsd:enumeration value="open.running">
+                   <xsd:annotation>
+                       <xsd:appinfo>
+                           <h:label>В работе</h:label>
+                       </xsd:appinfo>
+                   </xsd:annotation>                   
+               </xsd:enumeration>                                      
+               <xsd:enumeration value="closed.completed">
+                   <xsd:annotation>
+                       <xsd:appinfo>
+                           <h:label>Завершен</h:label>
+                       </xsd:appinfo>
+                   </xsd:annotation>                   
+               </xsd:enumeration>                   
+               <xsd:enumeration value="closed.terminated">
+                   <xsd:annotation>
+                       <xsd:appinfo>
+                           <h:label>Прерван</h:label>
+                       </xsd:appinfo>
+                   </xsd:annotation>                   
+               </xsd:enumeration>                   
+               <xsd:enumeration value="closed.aborted">
+                   <xsd:annotation>
+                       <xsd:appinfo>
+                           <h:label>Отменен</h:label>
+                       </xsd:appinfo>
+                   </xsd:annotation>                   
+               </xsd:enumeration>
+            </xsd:restriction>
+         </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="Created" type="xsd:dateTime"/>
+      <xsd:attribute name="Started" type="xsd:dateTime"/>
+      <xsd:attribute name="Finished" type="xsd:dateTime"/>
+      <xsd:anyAttribute namespace="##other" processContents="lax"/>
+   </xsd:complexType>
+   <xsd:complexType name="WorkflowProcessInstance" abstract="true" mixed="false">
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="xpil:ExecutionInstance">
+            <xsd:sequence>
+               <xsd:element ref="xpil:ActivityInstances" minOccurs="0"/>
+               <xsd:element ref="xpdl:WorkflowProcess" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="RequesterUsername" type="xsd:string"/>
+            <xsd:attribute name="FactoryId" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:element name="MainWorkflowProcessInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:WorkflowProcessInstance"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="SubWorkflowProcessInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:WorkflowProcessInstance">
+               <xsd:sequence>
+                  <xsd:element ref="xpil:SubFlowActivityInstance" minOccurs="0"/>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="WorkflowProcessInstances">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+               <xsd:element ref="xpil:MainWorkflowProcessInstance"/>
+               <xsd:element ref="xpil:SubWorkflowProcessInstance"/>
+            </xsd:choice>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:complexType name="ActivityInstance" abstract="true" mixed="false">
+      <xsd:complexContent mixed="false">
+         <xsd:extension base="xpil:ExecutionInstance">
+            <xsd:sequence>
+               <xsd:element ref="xpil:DeadlineInstances" minOccurs="0"/>
+               <xsd:element ref="xpdl:Activity" minOccurs="0"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:element name="ManualActivityInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:ActivityInstance">
+               <xsd:sequence>
+                  <xsd:element ref="xpil:AssignmentInstances" minOccurs="0"/>
+                  <xsd:element ref="xpil:PreviousActivityInstance" minOccurs="0"/>
+                  <xsd:element ref="xpil:NextInfo" minOccurs="0"/>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="ToolActivityInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:ActivityInstance"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="BlockActivityInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:ActivityInstance">
+               <xsd:sequence>
+                  <xsd:element ref="xpil:ActivityInstances" minOccurs="0"/>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="RouteActivityInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:ActivityInstance"/>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="SubFlowActivityInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:ActivityInstance">
+               <xsd:sequence>
+                  <xsd:element ref="xpil:SubWorkflowProcessInstance" minOccurs="0"/>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="ActivityInstances">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+               <xsd:element ref="xpil:ManualActivityInstance"/>
+               <xsd:element ref="xpil:ToolActivityInstance"/>
+               <xsd:element ref="xpil:BlockActivityInstance"/>
+               <xsd:element ref="xpil:RouteActivityInstance"/>
+               <xsd:element ref="xpil:SubFlowActivityInstance"/>
+            </xsd:choice>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="AssignmentInstance">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+         <xsd:attribute name="Username" type="xsd:string" use="required"/>
+         <xsd:attribute name="IsAccepted" type="xsd:boolean" use="required"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="AssignmentInstances">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:AssignmentInstance" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:complexType name="DataInstance" abstract="true" mixed="false">
+      <xsd:sequence>
+         <xsd:choice minOccurs="0">
+            <xsd:element ref="xpdl:DataField"/>
+            <xsd:element ref="xpdl:FormalParameter"/>
+         </xsd:choice>
+         <xsd:element ref="xpil:LanguageMappings" minOccurs="0"/>
+         <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="Id" type="xsd:string" use="required"/>
+   </xsd:complexType>
+   <xsd:element name="StringDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:attribute name="Value" type="xsd:string" use="optional"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="StringArrayDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:sequence>
+                  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                     <xsd:element ref="xpil:StringValue"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="StringValue">
+      <xsd:complexType>
+         <xsd:attribute name="Value" type="xsd:string" use="optional"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="BooleanDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:attribute name="Value" type="xsd:boolean" use="optional"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="BooleanArrayDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:sequence>
+                  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                     <xsd:element ref="xpil:BooleanValue"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="BooleanValue">
+      <xsd:complexType>
+         <xsd:attribute name="Value" type="xsd:boolean" use="optional"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DateDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:attribute name="Value" type="xsd:date" use="optional"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DateArrayDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:sequence>
+                  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                     <xsd:element ref="xpil:DateValue"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DateValue">
+      <xsd:complexType>
+         <xsd:attribute name="Value" type="xsd:date" use="optional"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DateTimeDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:attribute name="Value" type="xsd:dateTime" use="optional"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DateTimeArrayDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:sequence>
+                  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                     <xsd:element ref="xpil:DateTimeValue"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DateTimeValue">
+      <xsd:complexType>
+         <xsd:attribute name="Value" type="xsd:dateTime" use="optional"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="TimeDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:attribute name="Value" type="xsd:time" use="optional"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="TimeArrayDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:sequence>
+                  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                     <xsd:element ref="xpil:TimeValue"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="TimeValue">
+      <xsd:complexType>
+         <xsd:attribute name="Value" type="xsd:time" use="optional"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="LongDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:attribute name="Value" type="xsd:long" use="optional"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="LongArrayDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:sequence>
+                  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                     <xsd:element ref="xpil:LongValue"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="LongValue">
+      <xsd:complexType>
+         <xsd:attribute name="Value" type="xsd:long" use="optional"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DoubleDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:attribute name="Value" type="xsd:double" use="optional"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DoubleArrayDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:sequence>
+                  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                     <xsd:element ref="xpil:DoubleValue"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DoubleValue">
+      <xsd:complexType>
+         <xsd:attribute name="Value" type="xsd:double" use="optional"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="ByteArrayDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:attribute name="Value" type="xsd:string" use="optional"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="AnyDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:sequence>
+                  <xsd:element name="Value" type="xsd:anyType"/>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="SchemaDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:attribute name="Value" type="xsd:string" use="optional"></xsd:attribute>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="ComplexDataInstance">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:DataInstance">
+               <xsd:sequence>
+                  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                     <xsd:element ref="xpil:StringDataInstance"/>
+                     <xsd:element ref="xpil:StringArrayDataInstance"/>
+                     <xsd:element ref="xpil:BooleanDataInstance"/>
+                     <xsd:element ref="xpil:BooleanArrayDataInstance"/>
+                     <xsd:element ref="xpil:DateDataInstance"/>
+                     <xsd:element ref="xpil:DateArrayDataInstance"/>
+                     <xsd:element ref="xpil:DateTimeDataInstance"/>
+                     <xsd:element ref="xpil:DateTimeArrayDataInstance"/>
+                     <xsd:element ref="xpil:TimeDataInstance"/>
+                     <xsd:element ref="xpil:TimeArrayDataInstance"/>
+                     <xsd:element ref="xpil:LongDataInstance"/>
+                     <xsd:element ref="xpil:LongArrayDataInstance"/>
+                     <xsd:element ref="xpil:DoubleDataInstance"/>
+                     <xsd:element ref="xpil:DoubleArrayDataInstance"/>
+                     <xsd:element ref="xpil:AnyDataInstance"/>
+                     <xsd:element ref="xpil:ComplexDataInstance"/>
+                     <xsd:element ref="xpil:SchemaDataInstance"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DataInstances">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+               <xsd:element ref="xpil:StringDataInstance"/>
+               <xsd:element ref="xpil:StringArrayDataInstance"/>
+               <xsd:element ref="xpil:BooleanDataInstance"/>
+               <xsd:element ref="xpil:BooleanArrayDataInstance"/>
+               <xsd:element ref="xpil:DateDataInstance"/>
+               <xsd:element ref="xpil:DateArrayDataInstance"/>
+               <xsd:element ref="xpil:DateTimeDataInstance"/>
+               <xsd:element ref="xpil:DateTimeArrayDataInstance"/>
+               <xsd:element ref="xpil:TimeDataInstance"/>
+               <xsd:element ref="xpil:TimeArrayDataInstance"/>
+               <xsd:element ref="xpil:LongDataInstance"/>
+               <xsd:element ref="xpil:LongArrayDataInstance"/>
+               <xsd:element ref="xpil:DoubleDataInstance"/>
+               <xsd:element ref="xpil:DoubleArrayDataInstance"/>
+               <xsd:element ref="xpil:ByteArrayDataInstance"/>
+               <xsd:element ref="xpil:AnyDataInstance"/>
+               <xsd:element ref="xpil:ComplexDataInstance"/>
+               <xsd:element ref="xpil:SchemaDataInstance"/>
+            </xsd:choice>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DeadlineInstance">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+            <xsd:element ref="xpdl:Deadline" minOccurs="0"/>
+         </xsd:sequence>
+         <xsd:attribute name="IsExecuted" type="xsd:boolean" use="required"/>
+         <xsd:attribute name="IsSynchronous" type="xsd:boolean" use="required"/>
+         <xsd:attribute name="ExceptionName" type="xsd:string" use="required"/>
+         <xsd:attribute name="TimeLimit" type="xsd:dateTime" use="required"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DeadlineInstances">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:DeadlineInstance" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="InstanceExtendedAttribute">
+      <xsd:complexType mixed="true">
+         <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+         </xsd:choice>
+         <xsd:attribute name="Name" type="xsd:string" use="required"/>
+         <xsd:attribute name="Value" type="xsd:string"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="InstanceExtendedAttributes">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:InstanceExtendedAttribute" minOccurs="0" maxOccurs="unbounded"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DataSignature">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:choice minOccurs="0">
+               <xsd:element ref="xpdl:DataField"/>
+               <xsd:element ref="xpdl:FormalParameter"/>
+            </xsd:choice>
+            <xsd:element ref="xpil:LanguageMappings"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+         <xsd:attribute name="Id" type="xsd:string" use="required"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="ContextSignature">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:DataSignature" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="LanguageMapping">
+      <xsd:complexType>
+         <xsd:attribute name="Language" type="xsd:string" use="required"/>
+         <xsd:attribute name="Type" type="xsd:string" use="required"/>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="LanguageMappings">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:LanguageMapping" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="NextInfoElement">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpdl:Activity"/>
+            <xsd:element ref="xpdl:Transition"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="NextInfo">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="xpil:NextInfoElement" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="PreviousActivityInstance">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:choice>
+               <xsd:element ref="xpil:ManualActivityInstance"/>
+               <xsd:element ref="xpil:ToolActivityInstance"/>
+               <xsd:element ref="xpil:BlockActivityInstance"/>
+               <xsd:element ref="xpil:RouteActivityInstance"/>
+               <xsd:element ref="xpil:SubFlowActivityInstance"/>
+            </xsd:choice>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:complexType name="EventAudit" abstract="true" mixed="false">
+      <xsd:sequence>
+         <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="Created" type="xsd:dateTime" use="required"/>
+      <xsd:attribute name="Type" type="xsd:string" use="required"/>
+      <xsd:attribute name="WorkflowProcessFactoryId" type="xsd:string" use="required"/>
+      <xsd:attribute name="WorkflowProcessFactoryVersion" type="xsd:string" use="required"/>
+      <xsd:attribute name="WorkflowProcessInstanceId" type="xsd:string" use="required"/>
+      <xsd:attribute name="WorkflowProcessInstanceName" type="xsd:string"/>
+      <xsd:attribute name="ActivityInstanceId" type="xsd:string"/>
+      <xsd:attribute name="ActivityInstanceName" type="xsd:string"/>
+      <xsd:attribute name="PackageId" type="xsd:string" use="required"/>
+      <xsd:attribute name="ProcessDefinitionId" type="xsd:string" use="required"/>
+      <xsd:attribute name="ActivityDefinitionId" type="xsd:string"/>
+   </xsd:complexType>
+
+   <xsd:element name="EventAudits">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+               <xsd:element ref="xpil:StateEventAudit"/>
+               <xsd:element ref="xpil:DataEventAudit"/>
+               <xsd:element ref="xpil:AssignmentEventAudit"/>
+               <xsd:element ref="xpil:CreateProcessEventAudit"/>
+            </xsd:choice>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:element name="StateEventAudit">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:EventAudit">
+               <xsd:attribute name="OldState" type="xsd:string" use="required"/>
+               <xsd:attribute name="NewState" type="xsd:string" use="required"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="DataEventAudit">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:EventAudit">
+               <xsd:sequence>
+                  <xsd:element ref="xpil:OldEventData" minOccurs="0"/>
+                  <xsd:element ref="xpil:NewEventData"/>
+               </xsd:sequence>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="AssignmentEventAudit">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:EventAudit">
+               <xsd:attribute name="NewResourceKey" type="xsd:string" use="required"/>
+               <xsd:attribute name="NewResourceName" type="xsd:string"/>
+               <xsd:attribute name="OldResourceKey" type="xsd:string"/>
+               <xsd:attribute name="OldResourceName" type="xsd:string"/>
+               <xsd:attribute name="IsAccepted" type="xsd:boolean" use="required"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:element name="CreateProcessEventAudit">
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="xpil:EventAudit">
+               <xsd:attribute name="PWorkflowProcessFactoryId" type="xsd:string" use="required"/>
+               <xsd:attribute name="PWorkflowProcessFactoryVersion" type="xsd:string" use="required"/>
+               <xsd:attribute name="PWorkflowProcessInstanceId" type="xsd:string" use="required"/>
+               <xsd:attribute name="PWorkflowProcessInstanceName" type="xsd:string"/>
+               <xsd:attribute name="PActivityInstanceId" type="xsd:string"/>
+               <xsd:attribute name="PPackageId" type="xsd:string" use="required"/>
+               <xsd:attribute name="PProcessDefinitionId" type="xsd:string" use="required"/>
+               <xsd:attribute name="PActivityDefinitionId" type="xsd:string"/>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+
+
+   <xsd:element name="OldEventData">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:choice minOccurs="1" maxOccurs="unbounded">
+               <xsd:element ref="xpil:StringDataInstance"/>
+               <xsd:element ref="xpil:StringArrayDataInstance"/>
+               <xsd:element ref="xpil:BooleanDataInstance"/>
+               <xsd:element ref="xpil:BooleanArrayDataInstance"/>
+               <xsd:element ref="xpil:DateDataInstance"/>
+               <xsd:element ref="xpil:DateArrayDataInstance"/>
+               <xsd:element ref="xpil:DateTimeDataInstance"/>
+               <xsd:element ref="xpil:DateTimeArrayDataInstance"/>
+               <xsd:element ref="xpil:TimeDataInstance"/>
+               <xsd:element ref="xpil:TimeArrayDataInstance"/>
+               <xsd:element ref="xpil:LongDataInstance"/>
+               <xsd:element ref="xpil:LongArrayDataInstance"/>
+               <xsd:element ref="xpil:DoubleDataInstance"/>
+               <xsd:element ref="xpil:DoubleArrayDataInstance"/>
+               <xsd:element ref="xpil:ByteArrayDataInstance"/>
+               <xsd:element ref="xpil:AnyDataInstance"/>
+               <xsd:element ref="xpil:ComplexDataInstance"/>
+               <xsd:element ref="xpil:SchemaDataInstance"/>
+            </xsd:choice>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:element name="NewEventData">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:choice minOccurs="1" maxOccurs="unbounded">
+               <xsd:element ref="xpil:StringDataInstance"/>
+               <xsd:element ref="xpil:StringArrayDataInstance"/>
+               <xsd:element ref="xpil:BooleanDataInstance"/>
+               <xsd:element ref="xpil:BooleanArrayDataInstance"/>
+               <xsd:element ref="xpil:DateDataInstance"/>
+               <xsd:element ref="xpil:DateArrayDataInstance"/>
+               <xsd:element ref="xpil:DateTimeDataInstance"/>
+               <xsd:element ref="xpil:DateTimeArrayDataInstance"/>
+               <xsd:element ref="xpil:TimeDataInstance"/>
+               <xsd:element ref="xpil:TimeArrayDataInstance"/>
+               <xsd:element ref="xpil:LongDataInstance"/>
+               <xsd:element ref="xpil:LongArrayDataInstance"/>
+               <xsd:element ref="xpil:DoubleDataInstance"/>
+               <xsd:element ref="xpil:DoubleArrayDataInstance"/>
+               <xsd:element ref="xpil:ByteArrayDataInstance"/>
+               <xsd:element ref="xpil:AnyDataInstance"/>
+               <xsd:element ref="xpil:ComplexDataInstance"/>
+               <xsd:element ref="xpil:SchemaDataInstance"/>
+            </xsd:choice>
+            <xsd:element ref="xpil:InstanceExtendedAttributes" minOccurs="0"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:element name="SharkVersion" type="xsd:string"/>
+   <xsd:element name="SharkRelease" type="xsd:string"/>
+   <xsd:element name="SharkBuildId" type="xsd:string"/>
+   <xsd:element name="InstanceDescription" type="xsd:string"/>
+   <xsd:element name="InstanceLimit" type="xsd:dateTime"/>
+   <xsd:element name="InstancePriority" type="xsd:int"/>
+   <xsd:element name="XPILVersion" type="xsd:string"/>
+   <xsd:element name="XPILVendor" type="xsd:string"/>
+   <xsd:element name="CreationTime" type="xsd:dateTime"/>
+   <xsd:element name="XPILRequester" type="xsd:string"/>
+</xsd:schema>

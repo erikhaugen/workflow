@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:jaxrs-client="http://cxf.apache.org/jaxrs-client"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/common/common.xml" />
+    <context:annotation-config/>
+    <cache:annotation-driven />
+    <bean id="cacheBuilder" class="com.google.common.cache.CacheBuilder" factory-method="from">
+        <constructor-arg value="maximumSize=500, expireAfterAccess=60s, expireAfterWrite=60s" />
+    </bean>
+    <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
+        <property name="cacheBuilder" ref="cacheBuilder"/>
+    </bean>
+    <bean id="springApplicationContext" class="ru.ilb.workflow.utils.SpringApplicationContext"/>
+    <bean id="orgTreeManager" class="ru.ilb.workflow.orgtree.OrgTreeManager"/>
+    <tx:jta-transaction-manager />
+    <tx:annotation-driven proxy-target-class="true"/>
+    <!--
+         Construct Atomikos UserTransactionManager,
+         needed to configure Spring
+    -->
+    <bean id="AtomikosTransactionManager"
+          class="com.atomikos.icatch.jta.UserTransactionManager"
+          init-method="init" destroy-method="close">
+
+        <!--
+              when close is called, should we force
+              transactions to terminate or not?
+        -->
+        <property name="forceShutdown" value="true" />
+    </bean>
+
+    <!--
+         Also use Atomikos UserTransactionImp,
+         needed to configure Spring
+    -->
+    <bean id="AtomikosUserTransaction"
+          class="com.atomikos.icatch.jta.UserTransactionImp">
+
+        <property name="transactionTimeout" value="300" />
+    </bean>
+
+    <!--
+         Configure the Spring framework to use
+         JTA transactions from Atomikos
+    -->
+    <bean id="transactionManager"
+          class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManager" ref="AtomikosTransactionManager" />
+        <property name="userTransaction" ref="AtomikosUserTransaction" />
+    </bean>
+    <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
+        <property name="namespaceMap" ref="jsonNamespaceMap"/>
+        <property name="namespaceSeparator" value=":"/>
+        <!--property name="convention" value="badgerfish"/-->
+    </bean>
+    <util:map id="jsonNamespaceMap" map-class="java.util.Hashtable">
+        <entry key="http://www.together.at/2006/XPIL1.0" value=""/>
+        <entry key="http://www.wfmc.org/2002/XPDL1.0" value="xpdl"/>
+    </util:map>
+    <context:component-scan base-package="ru.ilb.workflow.web,ru.ilb.workflow.orgtree"/>
+    <jaxrs:server address="/" basePackages="ru.ilb.common.rs,ru.ilb.workflow.web">
+        <jaxrs:properties>
+            <entry key="search.lax.property.match" value="true" />
+        </jaxrs:properties>
+        <jaxrs:providers>
+            <ref bean="xsltProvider"/>
+            <ref bean="jaxbProvider"/>
+            <ref bean="jsonProvider"/>
+            <bean class="org.apache.cxf.jaxrs.ext.search.SearchContextProvider"/>
+        </jaxrs:providers>
+        <jaxrs:extensionMappings>
+            <entry key="xml" value="application/xml"/>
+            <entry key="csv" value="text/csv"/>
+            <entry key="jpg" value="image/jpeg"/>
+            <entry key="json" value="application/json"/>
+            <entry key="txt" value="text/plain"/>
+        </jaxrs:extensionMappings>
+        <!--
+        <jaxrs:inInterceptors>
+            <bean class="org.apache.cxf.jaxrs.provider.jsonp.JsonpInInterceptor">
+                <property name="callbackParam" value="myjsonp"/>
+            </bean>
+        </jaxrs:inInterceptors>
+        <jaxrs:outInterceptors>
+            <bean class="org.apache.cxf.jaxrs.provider.jsonp.JsonpPreStreamInterceptor"/>
+            <bean class="org.apache.cxf.jaxrs.provider.jsonp.JsonpPostStreamInterceptor"/>
+        </jaxrs:outInterceptors>
+        -->
+    </jaxrs:server>
+</beans>

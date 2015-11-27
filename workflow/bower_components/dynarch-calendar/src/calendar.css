@@ -1,0 +1,64 @@
+.calendar{
+	cursor: default;
+	font-family: verdana;
+	font-size: 10pt;
+	color: #666666;
+	background-color: #FFFFFF;
+	border: 1px solid #000000;
+	width: 157px;
+}
+
+.calendar  * .button{
+	cursor: pointer;
+}
+.calendar  * .hilite{
+	font-weight: bold;
+}
+
+.calendar table{
+	width: 100%;
+}
+
+.calendar table thead td{
+	color: #a06000;
+	text-align: center;
+}
+
+.calendar table .headrow td{
+	color: #a06000;
+}
+
+.calendar table .daynames td{
+	color: #a06000;
+	text-align:center;
+}
+
+.calendar table tbody td{
+	text-decoration: underline;
+	color: #000000;
+	cursor: pointer;
+	width: 19px;
+	border: 1px solid #FFFFFF;
+	text-align: right;
+}
+
+.calendar table tbody .emptycell{
+	cursor: default;
+}
+
+.calendar table tbody .weekend{
+	color: #cccccc;
+}
+
+.calendar table tbody .today{
+	background: #FFAC2F;
+	color : #FFFFFF;
+}
+
+.calendar table tbody .selected{
+	border: 1px solid #FFAC2F;
+}
+
+.calendar table tbody .hilite{
+	border: 1px solid #000000;
+}

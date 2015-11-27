@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Together Workflow Server
+    Copyright (C) 2011 Together Teamsolutions Co., Ltd.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or 
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see http://www.gnu.org/licenses
+-->
+
+<dodsConf>
+
+<!-- =======================================================================================
+        
+# DODS Builder config file.
+#
+ ======================================================================================== -->
+    <TemplateDir>C:/users/sasaboy/Shark/util/dods/build/template</TemplateDir>
+    <CacheJar>docache.jar</CacheJar>
+    <CacheClassName>org.enhydra.dods.cache.QueryCacheImpl</CacheClassName>
+    
+    <Database>
+        <Vendor name="Standard">StandardConf.xml</Vendor>
+		<Vendor name="Access">AccessConf.xml</Vendor>
+        <Vendor name="InstantDB">InstantDBConf.xml</Vendor>
+        <Vendor name="Oracle">OracleConf.xml</Vendor>
+        <Vendor name="Informix">InformixConf.xml</Vendor>
+        <Vendor name="MSQL">MSQLConf.xml</Vendor>
+        <Vendor name="Sybase">SybaseConf.xml</Vendor>
+        <Vendor name="PostgreSQL">PostgreSQLConf.xml</Vendor>
+        <Vendor name="HypersonicSQL">HypersonicSQLConf.xml</Vendor>
+        <Vendor name="DB2">DB2Conf.xml</Vendor>
+        <Vendor name="QED">QEDConf.xml</Vendor>
+        <Vendor name="MySQL">MySQLConf.xml</Vendor>
+        <Vendor name="MckoiSQL">MckoiSQLConf.xml</Vendor>
+    </Database>
+
+	<Drivers>
+		 <DatabaseVendor name="Standard">
+		 	<Driver class="sun.jdbc.odbc.JdbcOdbcDriver" />
+		 	<Driver class="interbase.interclient.Driver"/>
+		 	<Driver class="org.objectweb.cjdbc.driver.Driver" name="C-JDBC" fullName="C-JDBC Generic Driver"/>
+		 </DatabaseVendor>		
+		 <DatabaseVendor name="Access">
+		 	<Driver class="sun.jdbc.odbc.JdbcOdbcDriver" />
+		 </DatabaseVendor>		
+ 		 <DatabaseVendor name="InstantDB">
+		 	<Driver class="org.enhydra.instantdb.jdbc.idbDriver" name="InstantDB" fullName="InstantDB JDBC Driver"/>		 
+		 </DatabaseVendor> 
+		 <DatabaseVendor name="Oracle">
+		 	<Driver class="oracle.jdbc.OracleDriver"/>
+		 	<Driver class="oracle.jdbc.driver.OracleDriver" name="Oracle" fullName="Oracle JDBC driver"/>
+		 </DatabaseVendor> 
+		 <DatabaseVendor name="Informix">
+		 	<Driver class="com.informix.jdbc.IfxDriver"/>		 
+		 </DatabaseVendor> 
+		 <DatabaseVendor name="MSQL">
+		 	<Driver class="com.inet.tds.TdsDriver"/>	
+		 	<Driver class="com.microsoft.jdbc.sqlserver.SQLServerDriver" name="SQLServer" fullName="SQLServer"/>		
+		 	<Driver class="com.microsoft.sqlserver.jdbc.SQLServerDriver" name="SQL Server 2005" fullName="Microsoft SQL Server 2005 JDBC Driver"/>
+		 	<Driver class="com.newatlanta.jturbo.driver.Driver" name="JTurbo" fullName="JTurbo 3.0.2p10 JDBC 2.1 Driver for MS SQL Server"/>
+		 	<Driver class="net.sourceforge.jtds.jdbc.Driver" name="jTDS"/>
+		 	<Driver class="org.continuent.sequoia.driver.Driver" name="Sequoia"/>
+		 </DatabaseVendor> 
+		 <DatabaseVendor name="Sybase">
+		 	<Driver class="com.sybase.jdbc2.jdbc.SybDriver"/>		 
+		 </DatabaseVendor> 
+		 <DatabaseVendor name="PostgreSQL">
+		 	<Driver class="org.postgresql.Driver" name="PostgreSQL" fullName="PostgreSQL Native Driver"/>		 
+		 	<Driver class="org.continuent.sequoia.driver.Driver" name="Sequoia"/>
+		 </DatabaseVendor> 
+		 <DatabaseVendor name="HypersonicSQL">
+		 	<Driver class="org.hsqldb.jdbcDriver" name="HSQL" fullName="HSQL Database Engine Driver"/>		 
+		 </DatabaseVendor>
+		 <DatabaseVendor name="DB2">
+		 	<Driver class="com.ibm.db2.jcc.DB2Driver" name="DB2" fullName="IBM DB2 JDBC 2.0 Type 3"/>		 
+		 </DatabaseVendor>
+		 <DatabaseVendor name="QED">
+		 	<Driver class="com.quadcap.jdbc.JdbcDriver" name="quadcap" fullName="com.quadcap.jdbc.JdbcDriver"/>		 
+		 </DatabaseVendor>
+		 <DatabaseVendor name="MySQL">
+		 	<Driver class="com.mysql.jdbc.Driver" name="MySQL" fullName="MySQL-AB JDBC Driver"/>		 
+		 </DatabaseVendor>
+		 <DatabaseVendor name="MckoiSQL">
+		 	<Driver class="com.mckoi.JDBCDriver" name="Mckoi" fullName="Mckoi JDBC Driver"/>		 
+		 </DatabaseVendor>	 
+	</Drivers>
+
+</dodsConf>

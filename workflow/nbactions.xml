@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-tomcat:deploy</actionName>
+            <displayName>tomcat:deploy</displayName>
+            <goals>
+                <goal>tomcat:deploy</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-tomcat:redeploy</actionName>
+            <displayName>tomcat:redeploy</displayName>
+            <goals>
+                <goal>tomcat:redeploy</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-verify</actionName>
+            <displayName>verify</displayName>
+            <goals>
+                <goal>verify</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>false</maven.test.skip>
+            </properties>
+        </action>
+    </actions>

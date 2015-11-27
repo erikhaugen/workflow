@@ -1,0 +1,25 @@
+{
+  "name": "workflow",
+  "version": "1.0.0",
+  "authors": [
+    "slavb18 <slavb@bystrobank.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "form-ajax": "opentags/form-ajax",
+    "x-tag-calendar": "~0.1.8",
+    "pure": "~0.5.0",
+    "x-tag-panel": "~0.2.1",
+    "dynarch-calendar": "opentags/dynarch-calendar",
+    "input-filtered": "opentags/input-filtered",
+    "fetch": "~0.9.0",
+    "es6-promise": "~3.0.2"
+  }
+}

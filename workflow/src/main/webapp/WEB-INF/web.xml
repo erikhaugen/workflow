@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/beans.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.apache.axis.transport.http.AxisHTTPSessionListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>CXFServlet</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>
+    <servlet>
+        <servlet-name>AxisServlet</servlet-name>
+        <servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CXFServlet</servlet-name>
+        <url-pattern>/web/*</url-pattern>
+    </servlet-mapping>
+    <security-constraint>
+        <display-name>Tomcat Server Configuration Security Constraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>workflow</web-resource-name>
+            <url-pattern>/web/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>*</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>workflow</realm-name>
+    </login-config>
+    <security-role>
+        <description>anyrole</description>
+        <role-name>*</role-name>
+    </security-role>
+    <env-entry>
+        <description>Путь к xpdl репозиторию</description>
+        <env-entry-name>xpdlRepository</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>/home/xpdlrepository</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <description>Группа, дающая доступ к процессу независимо от офиса</description>
+        <env-entry-name>allOfficesGroup</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>ru.bystrobank.apps.arm.alloffice</env-entry-value>
+    </env-entry>
+    <resource-ref>
+        <description>MySQL Datasource example</description>
+        <res-ref-name>jdbc/sharkdb</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+    <resource-ref>
+        <description>JTA example</description>
+        <res-ref-name>UserTransaction</res-ref-name>
+        <res-type>javax.transaction.UserTransaction</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+    <env-entry>
+        <description>Перечитывать xslt шаблоны на каждый запрос
+            (на время разработки для работы DeployOnSave)</description>
+        <env-entry-name>refreshTemplates</env-entry-name>
+        <env-entry-type>java.lang.Boolean</env-entry-type>
+        <env-entry-value>false</env-entry-value>
+    </env-entry>
+    <resource-env-ref>
+        <description>Сервисы для оповещение клиента по смс, почте</description>
+        <resource-env-ref-name>ru.bystrobank.apps.contactshistory.ws</resource-env-ref-name>
+        <resource-env-ref-type>javax.jms.Queue</resource-env-ref-type>
+    </resource-env-ref>
+    <resource-env-ref>
+        <description>Сервисы CRM</description>
+        <resource-env-ref-name>ru.bystrobank.apps.crm.ws</resource-env-ref-name>
+        <resource-env-ref-type>javax.jms.Queue</resource-env-ref-type>
+    </resource-env-ref>
+    <resource-env-ref>
+        <description>Сервисы contacts</description>
+        <resource-env-ref-name>ru.bystrobank.apps.contacts_web.ws</resource-env-ref-name>
+        <resource-env-ref-type>javax.jms.Queue</resource-env-ref-type>
+    </resource-env-ref>
+    <resource-env-ref>
+        <description>Сервисы marketing</description>
+        <resource-env-ref-name>ru.bystrobank.apps.marketing.ws</resource-env-ref-name>
+        <resource-env-ref-type>javax.jms.Queue</resource-env-ref-type>
+    </resource-env-ref>
+    <resource-env-ref>
+        <description>Сервисы contacts_js</description>
+        <resource-env-ref-name>ru.bystrobank.apps.contacts_js.ws</resource-env-ref-name>
+        <resource-env-ref-type>javax.jms.Queue</resource-env-ref-type>
+    </resource-env-ref>
+    <resource-env-ref>
+        <description>Сервисы orgtree</description>
+        <resource-env-ref-name>ru.bystrobank.apps.orgtree.ws</resource-env-ref-name>
+        <resource-env-ref-type>javax.jms.Queue</resource-env-ref-type>
+    </resource-env-ref>
+
+    <!-- для HSQLDB 
+    <env-entry>
+        <description></description>
+        <env-entry-name>DatabaseManager/DB/sharkdb/ObjectId/NextWithPrefix</env-entry-name>
+        <env-entry-value>true</env-entry-value>
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
+    <env-entry>
+        <description></description>
+        <env-entry-name>DatabaseManager/DB/sharkdb/ObjectId/NextColumnName</env-entry-name>
+        <env-entry-value>nextoid</env-entry-value>
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
+    <env-entry>
+        <description></description>
+        <env-entry-name>DatabaseManager/DB/sharkdb/Connection/ShutDownString</env-entry-name>
+        <env-entry-value>CHECKPOINT</env-entry-value>
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
+    -->
+
+    <mime-mapping>
+        <extension>wadl</extension>
+        <mime-type>application/xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>wsdl</extension>
+        <mime-type>application/xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>xsd</extension>
+        <mime-type>application/xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>xsl</extension>
+        <mime-type>application/xml</mime-type>
+    </mime-mapping>
+
+</web-app>

@@ -1,0 +1,21 @@
+{
+    "name": "dynarch-calendar",
+    "description": "dynarch-calendar",
+    "version": "0.0.1",
+    "keywords": [
+        "element",
+        "web-components",
+        "x-tag"
+    ],
+    "main": [
+        "src/calendar.js",
+        "src/calendar-setup.js",
+        "src/calendar-ru_win_.js",
+        "src/dynarch-calendar.js",
+        "src/calendar.css",
+        "src/calendar-ilb.css"
+    ],
+    "dependencies": {
+        "x-tag-core": "*"
+    }
+}

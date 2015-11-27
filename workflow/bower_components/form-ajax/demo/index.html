@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>form-ajax Demo</title>
+        <script type="text/javascript" src="x-tag-components.js"></script>
+        <script type="text/javascript" src="../src/formic.js"></script>
+        <script type="text/javascript" src="../src/json.js"></script>
+        <script type="text/javascript" src="../src/form-ajax.js"></script>
+        <link rel="stylesheet" href="../src/form-ajax.css"/>
+    </head>
+
+    <body>
+        <form id="f" method="post" enctype="application/json" action="#" is="form-ajax">
+            <input name="mix[0]" value="alpha"/>
+            <input name="mix[0]" value="bravo"/>
+            <button type="submit">submit</button>
+            <button type="submit" name="mix[0]" value="one">one</button>
+            <button type="submit" name="mix[0]" value="two">two</button>
+        </form>
+        <pre id='log'></pre>
+        <script>
+            document.getElementById("f").addEventListener('submitted',
+                    function (event) {
+                        var request = event.detail.request;
+                        var json= event.detail.data;
+                        document.getElementById("log").textContent=JSON.stringify(json, null, 4);
+                        if (request.status <400) {
+                            //do nothing
+                        } else{
+                            alert(request.responseText);
+                        }
+                    }
+            );
+        </script>
+    </body>
+</html>

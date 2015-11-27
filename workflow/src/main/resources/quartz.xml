@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job-scheduling-data
+    xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_2_0.xsd"
+    version="2.0">
+
+    <!--
+            See: http://www.quartz-scheduler.org/docs/cookbook/JobInitPlugin.html
+    -->
+
+    <pre-processing-commands>
+        <delete-jobs-in-group>System</delete-jobs-in-group>  <!-- clear all jobs in scheduler -->
+        <delete-triggers-in-group>System</delete-triggers-in-group> <!-- clear all triggers in scheduler -->
+    </pre-processing-commands>
+
+    <processing-directives>
+        <!--
+                if there are any jobs/trigger in scheduler of same name (as in this
+                file), overwrite them
+        -->
+        <overwrite-existing-data>true</overwrite-existing-data>
+        <!--
+                if there are any jobs/trigger in scheduler of same name (as in this
+                file), and over-write is false, ignore them rather then generating an
+                error
+        -->
+        <ignore-duplicates>false</ignore-duplicates>
+    </processing-directives>
+
+    <!-- Ok this is where all the jobs are created: -->
+
+    <schedule>
+        <job>
+            <name>CheckDeadlines</name>
+            <group>System</group>
+            <job-class>ru.ilb.workflow.job.CheckDeadlines</job-class>
+            <durability>true</durability>
+            <recover>false</recover>
+        </job>
+        <trigger>
+            <simple>
+                <name>CheckDeadlines</name>
+                <group>System</group>
+                <job-name>CheckDeadlines</job-name>
+                <job-group>System</job-group>
+                <start-time-seconds-in-future>60000</start-time-seconds-in-future>
+                <repeat-count>-1</repeat-count> <!-- repeat forever  -->
+                <repeat-interval>60000000</repeat-interval>  <!--  every 60 seconds -->
+            </simple>
+        </trigger>
+        <job>
+            <name>ReevaluateAssignments</name>
+            <group>System</group>
+            <job-class>ru.ilb.workflow.job.ReevaluateAssignments</job-class>
+            <durability>true</durability>
+            <recover>false</recover>
+        </job>
+        <trigger>
+            <simple>
+                <name>ReevaluateAssignments</name>
+                <group>System</group>
+                <job-name>ReevaluateAssignments</job-name>
+                <job-group>System</job-group>
+                <start-time-seconds-in-future>120000</start-time-seconds-in-future>
+                <repeat-count>-1</repeat-count> <!-- repeat forever  -->
+                <repeat-interval>300000000</repeat-interval>  <!--  every 5 minutes -->
+            </simple>
+        </trigger>
+
+    </schedule>
+</job-scheduling-data>

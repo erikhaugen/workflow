@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/workflow">
+    <Resource name="UserTransaction"
+             auth="Container"
+             type="javax.transaction.UserTransaction"
+             factory="org.enhydra.jndi.UserTransactionFactory"/>
+
+    <Resource name="sharkdb" type="javax.sql.DataSource"
+             factory="org.enhydra.jndi.DataSourceFactory"
+             max="10"
+             min="1"
+             username="workflow"
+             password="shark"
+             validationQuery="SELECT 1"
+             driverClassName="com.mysql.jdbc.Driver"
+             url="jdbc:mysql://localhost/workflow"
+    />
+    <Environment name="xpdlRepository" value="/home/slavb/work/workflow/trunk/xpdlrepository/web" type="java.lang.String" override="false"/>
+</Context>

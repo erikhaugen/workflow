@@ -1,0 +1,17 @@
+{
+  "name": "mixin-request",
+  "description": "XHR made easy.",
+  "version": "0.2.1",
+  "keywords": [
+    "web-components",
+    "mixin",
+    "request",
+    "x-tag"
+  ],
+  "main": [
+    "src/request.js"
+  ],
+  "dependencies": {
+    "x-tag-core": "*"
+  }
+}
