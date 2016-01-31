@@ -16,12 +16,17 @@
  */
 package ru.ilb.workflow.web;
 
+import java.util.Arrays;
+import java.util.List;
+import javax.ws.rs.WebApplicationException;
 import org.apache.cxf.jaxrs.ext.search.SearchBean;
 import org.apache.cxf.jaxrs.ext.search.SearchCondition;
 import org.apache.cxf.jaxrs.ext.search.SearchContext;
 import org.enhydra.shark.api.client.wfmc.wapi.WMFilter;
 import org.enhydra.shark.api.client.wfmc.wapi.WMSessionHandle;
+import org.enhydra.shark.api.client.wfservice.WMEntity;
 import org.enhydra.shark.utilities.interfacewrapper.SharkInterfaceWrapper;
+import org.enhydra.shark.utilities.wmentity.WMEntityUtilities;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ilb.workflow.search.ProcessFilterVisitor;
@@ -63,7 +68,13 @@ class ProcessesResourceIntr {
         return f;
     }
 
-    void onProcessEdit(WMSessionHandle shandle, String processId) throws Exception{
+    @Transactional
+    WMSessionHandle getSessionHandle(String username,Object vendorSpecificData) throws Exception {
+        return SharkInterfaceWrapper.getSessionHandle(username, vendorSpecificData);
+    }
+    
+    @Transactional
+    void reevaluateDeadlinesForProcesses(WMSessionHandle shandle, String processId) throws Exception {
         try {
             SharkInterfaceWrapper.getShark().getExecutionAdministration().reevaluateDeadlinesForProcesses(shandle, new String[]{processId});
         } catch (Exception ex) {
@@ -71,6 +82,23 @@ class ProcessesResourceIntr {
                 throw ex;
             }
         }
+    }
+
+    @Transactional
+    void startActivity(WMSessionHandle shandle, String processId, String activityId) throws Exception {
+        WMEntity proc = SharkInterfaceWrapper.getShark().getAdminMisc().getProcessDefinitionInfo(null, processId);
+        List<WMEntity> acts = Arrays.asList(WMEntityUtilities.getOverallActivities(shandle, SharkInterfaceWrapper.getShark().getXPDLBrowser(), proc));
+        WMEntity actdef = null;
+        for (WMEntity act : acts) {
+            if (act.getId().equals(activityId)) {
+                actdef = act;
+                break;
+            }
+        }
+        if (actdef == null) {
+            throw new WebApplicationException("Этап не найден", 404);
+        }
+        SharkInterfaceWrapper.getShark().getExecutionAdministration().startActivity(shandle, processId, "", actdef);
     }
 
 }

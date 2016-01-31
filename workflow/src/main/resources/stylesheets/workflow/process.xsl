@@ -54,7 +54,6 @@
             </head>
             <body>
                 <xsl:apply-templates select="xpil:*" mode="form"/>
-
             </body>
         </html>
     </xsl:template>
@@ -85,7 +84,7 @@
                 <div class="pure-control-group">
                     <label>Очередность:</label>
                     <span>
-                        <xsl:value-of select="$pr/xpil:InstancePriority"/>
+                        <input name="{concat(local-name($pr),'[InstancePriority]')}" value="{$pr/xpil:InstancePriority}"/>
                     </span>
                 </div>
                 <xsl:apply-templates select="$pr/xpil:DataInstances/xpil:*" mode="controlGroup"/>

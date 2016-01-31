@@ -283,17 +283,20 @@ public class ProcessesResourceImpl implements ProcessesResource {
     @Override
     public WorkflowProcessInstances getProcessInstanceList(List<String> xpilprop, String filter) {
         try {
-            WMSessionHandle shandle = SharkInterfaceWrapper.getSessionHandle(AuthorizationHandler.getAuthorisedUser(), null);
-            Properties props = new Properties();
-            props.setProperty(XPILHandler.FILL_USERS, "false");
-            XpilpropUtils.convertXpilpropListToProperties(xpilprop, props);
-            processesResourceIntr.setSearchContext(searchContext);
-            WMFilter f = processesResourceIntr.getProcessFilter(shandle, filter);
+            WorkflowProcessInstances result = new WorkflowProcessInstances();
+            if (filter != null) {
+                WMSessionHandle shandle = SharkInterfaceWrapper.getSessionHandle(AuthorizationHandler.getAuthorisedUser(), null);
+                Properties props = new Properties();
+                props.setProperty(XPILHandler.FILL_USERS, "false");
+                XpilpropUtils.convertXpilpropListToProperties(xpilprop, props);
+                processesResourceIntr.setSearchContext(searchContext);
+                WMFilter f = processesResourceIntr.getProcessFilter(shandle, constructPlainProcessFilter(filter));
 
-            String res = SharkInterfaceWrapper.getShark()
-                    .getXPILHandler()
-                    .getProcessInstanceList(shandle, AuthorizationHandler.getAuthorisedUser(), f, NameValueUtilities.convertPropertiesToNameValueArray(props));
-            WorkflowProcessInstances result = XPILJAXBUtils.fromStringWfProcesses(res);
+                String res = SharkInterfaceWrapper.getShark()
+                        .getXPILHandler()
+                        .getProcessInstanceList(shandle, AuthorizationHandler.getAuthorisedUser(), f, NameValueUtilities.convertPropertiesToNameValueArray(props));
+                result = XPILJAXBUtils.fromStringWfProcesses(res);
+            }
             if (messageContext.getHttpHeaders().getAcceptableMediaTypes().get(0).toString().equals("text/csv")) {
                 messageContext.getHttpServletResponse().addHeader("Content-Disposition", ContentDisposition.getContentDispositionHeader(ContentDisposition.DISPOSITION_ATTACHMENT, "process.csv", "UTF-8"));
                 messageContext.put("xslt.template", "stylesheets/workflow/processCsv.xsl");
@@ -302,6 +305,26 @@ public class ProcessesResourceImpl implements ProcessesResource {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private String constructPlainProcessFilter(String filter) {
+        if ("plain".equals(filter)) {
+            filter = "";
+            MultivaluedMap<String, String> params = uriInfo.getQueryParameters();
+            for (Map.Entry<String, List<String>> e : params.entrySet()) {
+                if (!"filter".equals(e.getKey())) {
+                    for (String value : e.getValue()) {
+                        if (!value.isEmpty()) {
+                            if (!filter.isEmpty()) {
+                                filter = filter + ";";
+                            }
+                            filter = filter + e.getKey() + "==" + value;
+                        }
+                    }
+                }
+            }
+        }
+        return filter;
     }
 
     @Transactional
@@ -381,6 +404,7 @@ public class ProcessesResourceImpl implements ProcessesResource {
             }
         }
     }
+
     /*
      @Transactional
      @Override
@@ -397,7 +421,6 @@ public class ProcessesResourceImpl implements ProcessesResource {
      }
      }
      */
-
     @Transactional
     @Override
     public void editProcessInstance(String processId, WorkflowProcessInstance mainworkflowprocessinstance) {
@@ -465,7 +488,7 @@ public class ProcessesResourceImpl implements ProcessesResource {
                     for (String[] extAttrib : extAttribs) {
                         String eaName = extAttrib[0];
                         String eaValue = extAttrib[1];
-                        if ("WORKFLOW_ACCEPT_ON_LOAD".equals(eaName) && "true".equals(eaValue)) {
+                        if ("WORKFLOW_ACCEPT_ON_LOAD".equals(eaName) && "true".equals(eaValue) && mai.getAssignmentInstances() != null) {
                             for (XPILAssignmentInstanceDocument.AssignmentInstance ai : mai.getAssignmentInstances().getAssignmentInstanceArray()) {
                                 if (userName.equals(ai.getUsername())) {
                                     wapi.changeActivityInstanceState(shandle, processId, activityId, WMActivityInstanceState.valueOf(SharkConstants.STATE_OPEN_RUNNING));
@@ -674,6 +697,7 @@ public class ProcessesResourceImpl implements ProcessesResource {
 
     @Transactional
     @Override
+    @Deprecated
     public String finishActivity(String processId, String activityId) {
         ManualActivityInstance act = new ManualActivityInstance();
         act.setState(SharkConstants.STATE_CLOSED_COMPLETED);
@@ -682,23 +706,19 @@ public class ProcessesResourceImpl implements ProcessesResource {
 
     @Transactional
     @Override
+    public String completeActivity(String processId, String activityId) {
+        ManualActivityInstance act = new ManualActivityInstance();
+        act.setState(SharkConstants.STATE_CLOSED_COMPLETED);
+        return editActivity(processId, activityId, act);
+    }
+
+    //@Transactional
+    @Override
     public String startActivity(String processId, String activityId) {
         try {
-            WMSessionHandle shandle = SharkInterfaceWrapper.getSessionHandle(AuthorizationHandler.getAuthorisedUser(), null);
-            WMEntity proc = SharkInterfaceWrapper.getShark().getAdminMisc().getProcessDefinitionInfo(null, processId);
-            List<WMEntity> acts = Arrays.asList(WMEntityUtilities.getOverallActivities(shandle, SharkInterfaceWrapper.getShark().getXPDLBrowser(), proc));
-            WMEntity actdef = null;
-            for (WMEntity act : acts) {
-                if (act.getId().equals(activityId)) {
-                    actdef = act;
-                    break;
-                }
-            }
-            if (actdef == null) {
-                throw new WebApplicationException("Этап не найден", 404);
-            }
-            SharkInterfaceWrapper.getShark().getExecutionAdministration().startActivity(shandle, processId, "", actdef);
-            processesResourceIntr.onProcessEdit(shandle, processId);
+            WMSessionHandle shandle = processesResourceIntr.getSessionHandle(AuthorizationHandler.getAuthorisedUser(), null);
+            processesResourceIntr.startActivity(shandle, processId, activityId);
+            processesResourceIntr.reevaluateDeadlinesForProcesses(shandle, processId);
             return "OK";
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -729,6 +749,7 @@ public class ProcessesResourceImpl implements ProcessesResource {
             throw new RuntimeException(ex);
         }
     }
+
     /*
      @Transactional
      @Override
@@ -743,7 +764,6 @@ public class ProcessesResourceImpl implements ProcessesResource {
      }
      }
      */
-
     @Override
     @Transactional
     public Response checkDeadlines(final String filter, Boolean async) {
@@ -771,6 +791,7 @@ public class ProcessesResourceImpl implements ProcessesResource {
         return editActivity(processId, activityId, act);
     }
 
+    @Deprecated
     @Transactional
     @Override
     public String releaseActivity(String processId, String activityId) {
@@ -787,6 +808,30 @@ public class ProcessesResourceImpl implements ProcessesResource {
             result = new RuntimeException(ex);
         }
         return result;
+    }
+
+    @Transactional
+    @Override
+    public String unacceptActivity(String processId, String activityId) {
+        ManualActivityInstance act = new ManualActivityInstance();
+        act.setState(SharkConstants.STATE_OPEN_NOT_RUNNING_NOT_STARTED);
+        return editActivity(processId, activityId, act);
+    }
+
+    @Transactional
+    @Override
+    public String abortActivity(String processId, String activityId) {
+        ManualActivityInstance act = new ManualActivityInstance();
+        act.setState(SharkConstants.STATE_CLOSED_ABORTED);
+        return editActivity(processId, activityId, act);
+    }
+
+    @Transactional
+    @Override
+    public String terminateActivity(String processId, String activityId) {
+        ManualActivityInstance act = new ManualActivityInstance();
+        act.setState(SharkConstants.STATE_CLOSED_TERMINATED);
+        return editActivity(processId, activityId, act);
     }
 
 }

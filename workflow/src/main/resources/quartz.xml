@@ -44,9 +44,9 @@
                 <group>System</group>
                 <job-name>CheckDeadlines</job-name>
                 <job-group>System</job-group>
-                <start-time-seconds-in-future>60000</start-time-seconds-in-future>
+                <start-time-seconds-in-future>60</start-time-seconds-in-future>
                 <repeat-count>-1</repeat-count> <!-- repeat forever  -->
-                <repeat-interval>60000000</repeat-interval>  <!--  every 60 seconds -->
+                <repeat-interval>60000</repeat-interval>  <!--  every 60 seconds -->
             </simple>
         </trigger>
         <job>
@@ -62,9 +62,9 @@
                 <group>System</group>
                 <job-name>ReevaluateAssignments</job-name>
                 <job-group>System</job-group>
-                <start-time-seconds-in-future>120000</start-time-seconds-in-future>
+                <start-time-seconds-in-future>120</start-time-seconds-in-future>
                 <repeat-count>-1</repeat-count> <!-- repeat forever  -->
-                <repeat-interval>300000000</repeat-interval>  <!--  every 5 minutes -->
+                <repeat-interval>300000</repeat-interval>  <!--  every 5 minutes -->
             </simple>
         </trigger>
 

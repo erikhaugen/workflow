@@ -54,9 +54,12 @@
                 </xsl:call-template>
             </head>
             <body>
+                <xsl:call-template name="common_menu"/>
                 <form action="#" method="get" class="pure-form pure-form-aligned">
                     <fieldset>
                         <input type="hidden" name="filter" value="plain"/>
+                        <input type="hidden" name="state" value="open*"/>
+                        <!--
                         <div class="pure-control-group">
                             <label>Состояние</label>
                             <select name="state" required="required">
@@ -74,6 +77,7 @@
                                 </option>
                             </select>
                         </div>
+                        -->
                         <div class="pure-control-group">
                             <label>Назначение</label>
                             <select name="assignment" required="required">

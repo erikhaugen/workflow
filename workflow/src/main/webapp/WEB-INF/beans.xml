@@ -21,6 +21,7 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/common/common.xml" />
     <context:annotation-config/>
+    <context:load-time-weaver/>
     <cache:annotation-driven />
     <bean id="cacheBuilder" class="com.google.common.cache.CacheBuilder" factory-method="from">
         <constructor-arg value="maximumSize=500, expireAfterAccess=60s, expireAfterWrite=60s" />
@@ -31,7 +32,7 @@
     <bean id="springApplicationContext" class="ru.ilb.workflow.utils.SpringApplicationContext"/>
     <bean id="orgTreeManager" class="ru.ilb.workflow.orgtree.OrgTreeManager"/>
     <tx:jta-transaction-manager />
-    <tx:annotation-driven proxy-target-class="true"/>
+    <tx:annotation-driven mode="aspectj"/>
     <!--
          Construct Atomikos UserTransactionManager,
          needed to configure Spring

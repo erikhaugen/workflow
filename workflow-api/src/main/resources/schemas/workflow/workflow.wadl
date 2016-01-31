@@ -27,9 +27,8 @@
                         <param name="filter" type="xsd:string" style="query" default="state==open*;assignment==ACCEPTED_AND_NON_ACCEPTED;limit==100"/>
                     </request>
                     <response status="200">
-                        <representation mediaType="application/xml" element="xpil:WorkflowProcessInstances">
-                            <doc title="OK" />
-                        </representation>
+                        <representation mediaType="application/xml" element="xpil:WorkflowProcessInstances"/>
+                        <representation mediaType="application/json"/>
                         <representation mediaType="application/xhtml+xml"/>
                     </response>
                 </method>
@@ -40,7 +39,6 @@
                     </request>
                     <response status="204"/>
                 </method>
-
             </resource>
 
             <resource path="checkDeadlines">
@@ -59,7 +57,7 @@
                 <doc>Создать процесс</doc>
                 <request>
                     <representation mediaType="application/xml" element="xpil:WorkflowProcessInstance"/>
-                    <representation mediaType="application/json" element="xpil:WorkflowProcessInstance"/>
+                    <representation mediaType="application/json"/>
                 </request>
                 <response status="200">
                     <representation mediaType="text/plain">
@@ -72,11 +70,11 @@
                 <request>
                     <param name="xpilprop" style="query" repeating="true"/>
                     <representation mediaType="application/xml" element="xpil:WorkflowProcessInstance"/>
-                    <representation mediaType="application/json" element="xpil:WorkflowProcessInstance"/>
+                    <representation mediaType="application/json"/>
                 </request>
                 <response status="200">
                     <representation mediaType="application/xml" element="xpil:WorkflowProcessInstance"/>
-                    <representation mediaType="application/json" element="xpil:WorkflowProcessInstance"/>
+                    <representation mediaType="application/json"/>
                 </response>
             </method>
             <method name="GET" id="getProcessInstanceList">
@@ -88,6 +86,7 @@
                     <representation mediaType="application/xml" element="xpil:WorkflowProcessInstances">
                         <doc>Список процессов</doc>
                     </representation>
+                    <representation mediaType="application/json"/>
                     <representation mediaType="application/xhtml+xml"/>
                     <representation mediaType="text/csv">
                         <doc>Список процессов в CSV</doc>
@@ -111,9 +110,8 @@
                         <param name="xpilprop" style="query" repeating="true"/>
                     </request>
                     <response status="200">
-                        <representation mediaType="application/xml" element="xpil:WorkflowProcessInstance">
-                            <doc title="OK" />
-                        </representation>
+                        <representation mediaType="application/xml" element="xpil:WorkflowProcessInstance"/>
+                        <representation mediaType="application/json"/>
                         <representation mediaType="application/xhtml+xml"/>
                     </response>
                 </method>
@@ -125,7 +123,7 @@
                     <doc>Изменить данные процесса</doc>
                     <request>
                         <representation mediaType="application/xml" element="xpil:WorkflowProcessInstance"/>
-                        <representation mediaType="application/json" element="xpil:WorkflowProcessInstance"/>
+                        <representation mediaType="application/json"/>
                     </request>
                     <response status="204"/>
                 </method>
@@ -141,9 +139,8 @@
                 <resource path="history">
                     <method name="GET" id="getProcessHistory">
                         <response status="200">
-                            <representation mediaType="application/xml" element="xpil:ExtendedWorkflowFacilityInstance">
-                                <doc title="OK" />
-                            </representation>
+                            <representation mediaType="application/xml" element="xpil:ExtendedWorkflowFacilityInstance"/>
+                            <representation mediaType="application/json"/>
                             <representation mediaType="application/xhtml+xml"/>
                         </response>
                     </method>
@@ -179,14 +176,14 @@
                     <method name="GET" id="getProcessComments">
                         <response>
                             <representation mediaType="application/xml" element="xpil:WorkflowProcessInstance"/>
-                            <representation mediaType="application/json" element="xpil:WorkflowProcessInstance"/>
+                            <representation mediaType="application/json"/>
                             <representation mediaType="application/xhtml+xml"/>
                         </response>
                     </method>
                     <method name="POST" id="addProcessComment">
                         <request>
                             <representation mediaType="application/xml" element="xpil:StringValue"/>
-                            <representation mediaType="application/json" element="xpil:StringValue"/>
+                            <representation mediaType="application/json"/>
                         </request>
                         <response status="204"/>
                     </method>
@@ -199,7 +196,7 @@
                         </request>
                         <response status="200">
                             <representation mediaType="application/xml" element="xpil:WorkflowProcessInstance"/>
-                            <representation mediaType="application/json" element="xpil:WorkflowProcessInstance"/>
+                            <representation mediaType="application/json"/>
                             <representation mediaType="application/xhtml+xml"/>
                         </response>
                     </method>
@@ -224,8 +221,26 @@
                             </response>
                         </method>
                     </resource>
+                    <resource path="complete">
+                        <method name="POST" id="completeActivity">
+                            <response status="200">
+                                <representation mediaType="text/plain">
+                                    <param name="location" style="header" type="xsd:anyURI" required="true"/>
+                                </representation>
+                            </response>
+                        </method>
+                    </resource>
                     <resource path="accept">
                         <method name="POST" id="acceptActivity">
+                            <response status="200">
+                                <representation mediaType="text/plain">
+                                    <param name="location" style="header" type="xsd:anyURI" required="true"/>
+                                </representation>
+                            </response>
+                        </method>
+                    </resource>
+                    <resource path="unaccept">
+                        <method name="POST" id="unacceptActivity">
                             <response status="200">
                                 <representation mediaType="text/plain">
                                     <param name="location" style="header" type="xsd:anyURI" required="true"/>
@@ -242,6 +257,25 @@
                             </response>
                         </method>
                     </resource>
+                    <resource path="abort">
+                        <method name="POST" id="abortActivity">
+                            <response status="200">
+                                <representation mediaType="text/plain">
+                                    <param name="location" style="header" type="xsd:anyURI" required="true"/>
+                                </representation>
+                            </response>
+                        </method>
+                    </resource>
+                    <resource path="terminate">
+                        <method name="POST" id="terminateActivity">
+                            <response status="200">
+                                <representation mediaType="text/plain">
+                                    <param name="location" style="header" type="xsd:anyURI" required="true"/>
+                                </representation>
+                            </response>
+                        </method>
+                    </resource>
+
                     <!--
                     <resource path="previous">
                         <method name="GET" id="getPreviousActivity">
@@ -250,7 +284,7 @@
                             </request>
                             <response status="200">
                                 <representation mediaType="application/xml" element="xpil:ActivityInstance"/>
-                                <representation mediaType="application/json" element="xpil:ActivityInstance"/>
+                                <representation mediaType="application/json"/>
                             </response>
                         </method>
                     </resource>
@@ -261,7 +295,7 @@
                         </doc>
                         <request>
                             <representation mediaType="application/xml" element="xpil:ActivityInstance"/>
-                            <representation mediaType="application/json" element="xpil:ActivityInstance"/>
+                            <representation mediaType="application/json"/>
                         </request>
                         <response status="200">
                             <representation mediaType="text/plain">
@@ -276,11 +310,11 @@
                         <request>
                             <param name="xpilprop" style="query" repeating="true"/>
                             <representation mediaType="application/xml" element="xpil:ActivityInstance"/>
-                            <representation mediaType="application/json" element="xpil:ActivityInstance"/>
+                            <representation mediaType="application/json"/>
                         </request>
                         <response status="200">
                             <representation mediaType="application/xml" element="xpil:WorkflowProcessInstance"/>
-                            <representation mediaType="application/json" element="xpil:WorkflowProcessInstance"/>
+                            <representation mediaType="application/json"/>
                         </response>
                     </method>
                 </resource>
@@ -291,7 +325,7 @@
             <method name="GET" id="list">
                 <response status="200">
                     <representation mediaType="application/xml" element="xpil:PackageInstances"/>
-                    <representation mediaType="application/json" element="xpil:PackageInstances"/>
+                    <representation mediaType="application/json"/>
                     <representation mediaType="application/xhtml+xml"/>
                 </response>
             </method>
@@ -300,7 +334,7 @@
             <method name="GET" id="getUsers">
                 <response status="200">
                     <representation mediaType="application/xml" element="xpil:Users"/>
-                    <representation mediaType="application/json" element="xpil:Users"/>
+                    <representation mediaType="application/json"/>
                 </response>
             </method>
             <resource path="{userUid}">
@@ -308,7 +342,7 @@
                 <method name="GET" id="getUser">
                     <response status="200">
                         <representation mediaType="application/xml" element="xpil:User"/>
-                        <representation mediaType="application/json" element="xpil:User"/>
+                        <representation mediaType="application/json"/>
                     </response>
                 </method>
             </resource>
@@ -316,7 +350,7 @@
                 <method name="GET" id="getAuthorisedUser">
                     <response status="200">
                         <representation mediaType="application/xml" element="xpil:User"/>
-                        <representation mediaType="application/json" element="xpil:User"/>
+                        <representation mediaType="application/json"/>
                     </response>
                 </method>
                 <method name="GET" id="getAuthorisedUserName">

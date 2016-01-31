@@ -35,4 +35,10 @@
         </script>
 
     </xsl:template>
+    <xsl:template name="common_menu">
+        <div>
+            <a class="pure-button" href="/workflow/web/processes/workList">Рабочий лист</a>
+            <a class="pure-button" href="/workflow/web/processes">Список процессов</a>
+        </div>
+    </xsl:template>
 </xsl:stylesheet>

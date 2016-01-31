@@ -38,6 +38,9 @@
     <xsl:strip-space elements="*" />
     <xsl:param name="base.path"/>
     <xsl:param name="webroot.path" select="substring-before($base.path,'/web/')"/>
+    <xsl:param name="state"/>
+    <xsl:param name="assignment"/>
+    <xsl:param name="DataInstances.clientUUID"/>
     
     <xsl:template match="/xpil:WorkflowProcessInstances">
         <html xml:lang="ru">
@@ -56,6 +59,52 @@
             </head>
             <xsl:variable name="xpilxsd" select="document('../../../../schemas/workflow/xpil.xsd')"/>
             <body>
+                <xsl:call-template name="common_menu"/>
+                <form action="#" method="get" class="pure-form pure-form-aligned">
+                    <fieldset>
+                        <input type="hidden" name="filter" value="plain"/>
+                        <div class="pure-control-group">
+                            <label>Состояние</label>
+                            <select name="state" required="required">
+                                <option value="*">
+                                    <xsl:if test="$state='*'">
+                                        <xsl:attribute name="selected">selected</xsl:attribute>
+                                    </xsl:if>
+                                    Все
+                                </option>
+                                <option value="open*">
+                                    <xsl:if test="$state='open*'">
+                                        <xsl:attribute name="selected">selected</xsl:attribute>
+                                    </xsl:if>
+                                    Работающие
+                                </option>
+                                <option value="closed*">
+                                    <xsl:if test="$state='closed*'">
+                                        <xsl:attribute name="selected">selected</xsl:attribute>
+                                    </xsl:if>
+                                    Завершенные
+                                </option>
+
+                            </select>
+                        </div>
+                        <div class="pure-control-group">
+                            <label>UUID клиента</label>
+                            <input type="text" name="DataInstances.clientUUID" value="{$DataInstances.clientUUID}"/>
+                        </div>
+                        <input type="hidden" name="limit" value="100"/>
+                        <!--
+                        <div class="pure-control-group">
+                            <label>Запрос поиска</label>
+                            <textarea name="search">
+                            </textarea>
+                        </div>
+                        -->
+                        <div class="pure-control-group">
+                            <button class="pure-button" type="submit">Обновить</button>
+                        </div>
+                    </fieldset>
+                </form>
+
                 <table  class="pure-table pure-table-horizontal pure-table-striped">
                     <caption>Список процессов</caption>
                     <tr>
@@ -69,7 +118,9 @@
                     <xsl:for-each select="xpil:*">                
                         <tr>
                             <td>
-                                <xsl:value-of select="@Id"/>
+                                <a href="processes/{@Id}?xpilprop=FILL_PROCESS_VARIABLES&amp;xpilprop=FILL_RUNNING_ACTIVITIES&amp;xpilprop=FILL_ACTIVITY_DEADLINE_INFO">
+                                    <xsl:value-of select="@Id"/>
+                                </a>
                             </td>
                             <td>
                                 <xsl:value-of select="@Name"/>

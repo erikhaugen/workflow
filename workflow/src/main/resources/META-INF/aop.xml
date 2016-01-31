@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+    <!-- включить для работы <tx:annotation-driven mode="aspectj" /> -->
+    <aspects>
+        <aspect name="org.springframework.transaction.aspectj.AnnotationTransactionAspect" />
+    </aspects>
+    <weaver options="-XnoInline -Xreweavable -verbose -showWeaveInfo">
+        <include within="ru.ilb.workflow.web.*" />
+    </weaver>
+    
+</aspectj>

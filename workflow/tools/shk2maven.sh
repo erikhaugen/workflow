@@ -8,13 +8,12 @@ REPO=http://svn.code.sf.net/p/sharkwf/code/tags/releases/tws-6.1-3
 SRC=$HOME/work/sharkwf-code/tws
 svn revert -R $SRC
 svn up $SRC
-#TWS_VERSION=6.1-3.r`svnversion $SRC`
-TWS_VERSION=6.1.3
+TWS_VERSION=6.3.1
 echo building $TWS_VERSION
 cat SharkAPI.diff | patch -d $SRC -p0 # -N -r -
-sh $SRC/configure -jdkhome=/usr/lib64/jvm/java-1.7.0
-make -C $SRC debug
-OUT=$SRC/Shark/output/tws/lib
+sh $SRC/configure -jdkhome=$JDK_HOME
+make -C $SRC buildNoDoc
+OUT=$SRC/Shark/output/lib
 for jar in $OUT/sharkadminapi.jar $OUT/sharkclientapi.jar $OUT/sharkcommonapi.jar $OUT/sharkcorbaclientapi.jar $OUT/sharkinternalapi.jar $OUT/sharkwebservice-asapapi.jar  $OUT/sharkwebservice-wfxmlapi.jar; do
     jarfile=`basename $jar`
     artifactId=${jarfile%.jar}
